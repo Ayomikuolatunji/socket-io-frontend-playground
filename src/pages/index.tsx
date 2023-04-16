@@ -66,11 +66,17 @@ const Index = () => {
 
   return (
     <>
-      {/* {messages.map((message) => (
+     {messages.map((message: any) => (
         <div key={message._id}>
-          <p>{message.message}</p>
+          {message.senderRef === "643adce1c49946817d7b5818" ? (
+            <p>You: {message.message}</p>
+          ) : (
+            <p>
+              {message.senderRole}: {message.message}
+            </p>
+          )}
         </div>
-      ))} */}
+      ))}
       <TextField
         type="text"
         value={messageText}

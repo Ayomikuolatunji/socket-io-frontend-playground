@@ -9,16 +9,15 @@ const Index = () => {
   const [isTyping, setIsTyping] = useState(false);
   const socketRef: any = useRef(null);
   const object = {
-    senderId: "642ffac70d25c17a0ff3eb70",
-    schoolId: "642ffac70d25c17a0ff3eb70",
-    receiverId: "6435fa6e1a9ae9fe927614db",
-    senderRole: "school",
+    senderId: "643043ecaa84214f031b1bf2",
+    receiverId: "6430375aaa84214f031b1995",
+    senderRole: "parent",
   };
-  const { senderId, schoolId, receiverId, senderRole } = object;
+  const { senderId, receiverId, senderRole } = object;
   useEffect(() => {
     // Connect to the Socket.IO server
-    socketRef.current = io("http://localhost:8080", {
-      query: { schoolId },
+    socketRef.current = io("https://guident-db.herokuapp.com", {
+      query: { schoolId: "6430375aaa84214f031b1995" },
     });
 
     // Register event listeners for incoming messages and chat history
@@ -31,8 +30,7 @@ const Index = () => {
     });
 
     // Send a "userLogin" message to the server to associate the socket with the user ID
-    socketRef.current.emit("userLogin", "642ffac70d25c17a0ff3eb70");
-
+    socketRef.current.emit("userLogin", "643043ecaa84214f031b1bf2");
     // Request the chat history for the current sender/receiver pair
     getChatHistory();
 
@@ -66,11 +64,17 @@ const Index = () => {
 
   return (
     <>
-      {/* {messages.map((message) => (
+      {messages.map((message: any) => (
         <div key={message._id}>
-          <p>{message.message}</p>
+          {message.senderRef === "6435fa6e1a9ae9fe927614db" ? (
+            <p>You: {message.message}</p>
+          ) : (
+            <p>
+              {message.senderRole}: {message.message}
+            </p>
+          )}
         </div>
-      ))} */}
+      ))}
       <TextField
         type="text"
         value={messageText}

@@ -10,15 +10,14 @@ const Index = () => {
   const socketRef: any = useRef(null);
   const object = {
     senderId: "6435fa6e1a9ae9fe927614db",
-    schoolId: "642ffac70d25c17a0ff3eb70",
     receiverId: "642ffac70d25c17a0ff3eb70",
     senderRole: "parent",
   };
-  const { senderId, schoolId, receiverId, senderRole } = object;
+  const { senderId, receiverId, senderRole } = object;
   useEffect(() => {
     // Connect to the Socket.IO server
     socketRef.current = io("http://localhost:8080", {
-      query: { schoolId },
+      query: { schoolId: "642ffac70d25c17a0ff3eb70" },
     });
 
     // Register event listeners for incoming messages and chat history
@@ -66,9 +65,15 @@ const Index = () => {
 
   return (
     <>
-      {messages.map((message:any) => (
+      {messages.map((message: any) => (
         <div key={message._id}>
-          <p>{message.message}</p>
+          {message.senderRef === "6435fa6e1a9ae9fe927614db"? (
+            <p>You: {message.message}</p>
+          ) : (
+            <p>
+              {message.senderRole}: {message.message}
+            </p>
+          )}
         </div>
       ))}
       <TextField
