@@ -9,33 +9,25 @@ const Index = () => {
 
   const socketRef: any = useRef(null);
   const object = {
-    senderId: "6435fa6e1a9ae9fe927614db",
-    receiverId: "642ffac70d25c17a0ff3eb70",
+    senderId: "6475bd67650745e042234e50",
+    receiverId: "64750bed5312296063d2fc2c",
     senderRole: "parent",
   };
   const { senderId, receiverId, senderRole } = object;
+
   useEffect(() => {
     // Connect to the Socket.IO server
     socketRef.current = io("http://localhost:8080", {
-      query: { schoolId: "642ffac70d25c17a0ff3eb70" },
+      query: { schoolId: "64750bed5312296063d2fc2c" },
     });
-
-    // Register event listeners for incoming messages and chat history
     socketRef.current.on("newMessage", (message: any) => {
       setMessages((prevMessages: any) => [...prevMessages, message]);
     });
-
     socketRef.current.on("chatHistory", (history: any) => {
       setMessages(history);
     });
-
-    // Send a "userLogin" message to the server to associate the socket with the user ID
-    socketRef.current.emit("userLogin", "6435fa6e1a9ae9fe927614db");
-
-    // Request the chat history for the current sender/receiver pair
+    socketRef.current.emit("userLogin", "6475bd67650745e042234e50");
     getChatHistory();
-
-    // Cleanup function to disconnect the socket when the component unmounts
     return () => {
       socketRef.current.disconnect();
     };
@@ -65,7 +57,7 @@ const Index = () => {
 
   return (
     <>
-      {messages.map((message: any) => (
+      {/* {messages.map((message: any) => (
         <div key={message._id}>
           {message.senderRef === "6435fa6e1a9ae9fe927614db"? (
             <p>You: {message.message}</p>
@@ -75,7 +67,7 @@ const Index = () => {
             </p>
           )}
         </div>
-      ))}
+      ))} */}
       <TextField
         type="text"
         value={messageText}

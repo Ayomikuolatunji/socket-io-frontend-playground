@@ -6,37 +6,26 @@ import io from "socket.io-client";
 const Index = () => {
   const [messages, setMessages] = useState<any>([]);
   const [messageText, setMessageText] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
   const socketRef: any = useRef(null);
   const object = {
-    senderId: "642ffac70d25c17a0ff3eb70",
-    schoolId: "642ffac70d25c17a0ff3eb70",
-    receiverId: "643adce1c49946817d7b5818",
+    senderId: "64750bed5312296063d2fc2c",
+    schoolId: "64750bed5312296063d2fc2c",
+    receiverId: "6475bd67650745e042234e50",
     senderRole: "school",
   };
   const { senderId, schoolId, receiverId, senderRole } = object;
   useEffect(() => {
-    // Connect to the Socket.IO server
     socketRef.current = io("http://localhost:8080", {
       query: { schoolId },
     });
-
-    // Register event listeners for incoming messages and chat history
     socketRef.current.on("newMessage", (message: any) => {
       setMessages((prevMessages: any) => [...prevMessages, message]);
     });
-
     socketRef.current.on("chatHistory", (history: any) => {
       setMessages(history);
     });
-
-    // Send a "userLogin" message to the server to associate the socket with the user ID
-    socketRef.current.emit("userLogin", "642ffac70d25c17a0ff3eb70");
-
-    // Request the chat history for the current sender/receiver pair
+    socketRef.current.emit("userLogin", "64750bed5312296063d2fc2c");
     getChatHistory();
-
-    // Cleanup function to disconnect the socket when the component unmounts
     return () => {
       socketRef.current.disconnect();
     };
@@ -66,7 +55,7 @@ const Index = () => {
 
   return (
     <>
-     {messages.map((message: any) => (
+      {/* {messages.map((message: any) => (
         <div key={message._id}>
           {message.senderRef === "643adce1c49946817d7b5818" ? (
             <p>You: {message.message}</p>
@@ -76,7 +65,7 @@ const Index = () => {
             </p>
           )}
         </div>
-      ))}
+      ))} */}
       <TextField
         type="text"
         value={messageText}
