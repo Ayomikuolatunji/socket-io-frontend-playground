@@ -5,11 +5,11 @@ const Index = () => {
   const socketRef: any = useRef(null);
   useEffect(() => {
     socketRef.current = io("http://localhost:8080", {
-      query: { schoolId: "64750bed5312296063d2fc2c" },
+      query: { schoolId: "64845984a54c67c196a1cd2c" },
     });
     socketRef.current.on("connect", () => {
       console.log("Connected to the server");
-      socketRef.current.emit("userLogin", "64750bed5312296063d2fc2c");
+      socketRef.current.emit("userLogin", "64845984a54c67c196a1cd2c");
     });
     socketRef.current.on("disconnect", () => {
       console.log("Disconnected from the server");
@@ -18,10 +18,13 @@ const Index = () => {
       console.log("Received new announcement:", data);
     });
     socketRef.current.emit("fetchAnnouncement", {
-      schoolId: "64750bed5312296063d2fc2c",
+      schoolId: "64845984a54c67c196a1cd2c",
       announcementType: "schoolAnnouncement",
     });
     socketRef.current.on("announcementHistory", (data: any) => {
+      console.log(data);
+    });
+    socketRef.current.on("socketError", (data: any) => {
       console.log(data);
     });
     return () => {
@@ -33,14 +36,11 @@ const Index = () => {
     const announcementData = {
       title: "New Announcement",
       description: "This is a new announcement",
-      schoolId: "64750bed5312296063d2fc2c",
-      parentsIncluded: [
-        "6475bd67650745e042234e50",
-        "6475be5c650745e042234eb9",
-        "647b4da4c4347d5a213938db",
-      ],
+      schoolId: "64845984a54c67c196a1cd2c",
+      parentsIncluded: ["6484c710d6c6006c9e2affc4", "6484c6d7d6c6006c9e2affa2"],
+      sessionRef: "6484d41823096a8e15436e5e",
+      termRef: "6484d41823096a8e15436e60",
     };
-
     socketRef.current.emit("createAnnouncement", announcementData);
   };
 

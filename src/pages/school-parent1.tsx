@@ -9,21 +9,24 @@ const Index = () => {
 
   useEffect(() => {
     socketRef.current = io("http://localhost:8080", {
-      query: { schoolId: "64750bed5312296063d2fc2c" },
+      query: { schoolId: "64845984a54c67c196a1cd2c" },
     });
     socketRef.current.on("connect", () => {
       console.log("Connected to the server");
-      socketRef.current.emit("userLogin", "647b5210d88c8d46bea18c56");
+      socketRef.current.emit("userLogin", "6484c6d7d6c6006c9e2affa2");
     });
     socketRef.current.emit("fetchEvents", {
-      schoolId: "64750bed5312296063d2fc2c",
-      parentId: "647b5210d88c8d46bea18c56",
+      schoolId: "64845984a54c67c196a1cd2c",
+      parentId: "6484c6d7d6c6006c9e2affa2",
       eventType: "parentEvent",
     });
     socketRef.current.on("eventHistory", (data: any) => {
       console.log(data);
     });
     socketRef.current.on("newEvent", (data: any) => {
+      console.log(data);
+    });
+    socketRef.current.on("socketError", (data: any) => {
       console.log(data);
     });
     return () => {
